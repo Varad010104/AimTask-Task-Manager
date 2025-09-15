@@ -11,7 +11,7 @@ const passport = require("passport");
 const {router: notificationRoutes } = require('./routes/notification')
 require("./cron/taskReminder"); //jaise he task banay ga ye check karte rahega every 1 minute
 const voiceRoutes = require("./routes/voice");
-
+const homeRoute = require('./routes/home');
 dotenv.config();
 const app = express();
 
@@ -42,6 +42,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+app.use('/',homeRoute);
 app.use("/auth/", authenticateRoute); //app.use('/auth',authenticateRoute) Baad Main Auth Add Kar sakte Hain.
 
 

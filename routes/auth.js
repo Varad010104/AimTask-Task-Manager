@@ -13,13 +13,6 @@ const {
   protectOtp,
 } = require("../middleware/routeProtectionMiddleware");
 
-// =================== Home ROUTES ===================
-
-router.get('/',(req,res)=>{
-  return res.status(200).render('home');
-})
-
-// =================== Home End ROUTES ===================
 
 // =================== LOGIN ROUTES ===================
 
