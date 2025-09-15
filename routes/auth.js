@@ -16,7 +16,7 @@ const {
 // =================== Home ROUTES ===================
 
 router.get('/',(req,res)=>{
-  return res.status(200).send('home');
+  return res.status(200).render('home');
 })
 
 // =================== Home End ROUTES ===================
