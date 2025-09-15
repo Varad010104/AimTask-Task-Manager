@@ -6,59 +6,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AimTask - Smart Task Manager</title>
   <link href="/stylesheets/output.css" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white flex flex-col">
 
-  <nav class="flex justify-between items-center px-6 py-4 bg-white/10 backdrop-blur-lg border-b border-gray-700">
-    <h1 class="text-2xl font-bold text-emerald-400">AimTask</h1>
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center px-6 py-4 bg-white/5 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-700">
+    <h1 class="text-2xl font-extrabold bg-gradient-to-r from-emerald-400 to-indigo-500 bg-clip-text text-transparent">
+      AimTask
+    </h1>
     <div class="space-x-4">
       <a href="/auth/login"
-        class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-md transition">Login</a>
+        class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-lg shadow-md font-medium transition">Login</a>
       <a href="/auth/signup"
-        class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg shadow-md transition">Sign Up</a>
+        class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg shadow-md font-medium transition">Sign Up</a>
     </div>
   </nav>
 
-
-  <section class="flex flex-col items-center justify-center text-center px-6 py-20">
-    <h2 class="text-4xl sm:text-6xl font-extrabold leading-tight">
-      Manage Your <span class="text-emerald-400">Tasks</span> Smarter with
-      <span class="text-indigo-400">AI</span>
-    </h2>
-    <p class="mt-6 text-lg text-gray-300 max-w-2xl">
-      AimTask helps you organize, prioritize, and complete tasks efficiently with AI-powered suggestions and reminders.
-    </p>
-    <div class="mt-8 flex gap-4">
-      <a href="/auth/signup"
-        class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-lg font-semibold shadow-lg transition">
-        Get Started
-      </a>
-      <a href="/auth/login"
-        class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl text-lg font-semibold shadow-lg transition">
-        Login
-      </a>
+  <!-- Hero Section -->
+  <section class="flex flex-col lg:flex-row items-center justify-between gap-12 px-6 py-20 max-w-6xl mx-auto flex-1">
+    <div class="flex-1 text-center lg:text-left">
+      <h2 class="text-4xl sm:text-6xl font-extrabold leading-tight">
+        Manage Your <span class="text-emerald-400">Tasks</span> Smarter with
+        <span class="text-indigo-400">AI</span>
+      </h2>
+      <p class="mt-6 text-lg text-gray-300 max-w-xl">
+        AimTask helps you organize, prioritize, and complete tasks efficiently with AI-powered suggestions,
+        voice-to-task, and smart reminders.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
+        <a href="/auth/signup"
+          class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-lg font-semibold shadow-lg transition transform hover:scale-105">
+          🚀 Get Started
+        </a>
+        <a href="/auth/login"
+          class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl text-lg font-semibold shadow-lg transition transform hover:scale-105">
+          Login
+        </a>
+      </div>
+    </div>
+    <div class="flex-1">
+      <img src="https://illustrations.popsy.co/green/time-management.svg" alt="Task Illustration"
+        class="w-full max-w-md mx-auto animate-fadeIn">
     </div>
   </section>
 
-  <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 px-6 py-16 max-w-6xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
-      <h3 class="text-xl font-semibold text-emerald-400">✅ Smart Reminders</h3>
-      <p class="text-gray-300 mt-2">Get notified 5 minutes before your task starts so you never miss a deadline.</p>
-    </div>
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
-      <h3 class="text-xl font-semibold text-indigo-400">🤖 AI-Powered</h3>
-      <p class="text-gray-300 mt-2">AI analyzes your task descriptions and assigns auto-priority for better planning.</p>
-    </div>
-    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
-      <h3 class="text-xl font-semibold text-pink-400">🎤 Voice to Task</h3>
-      <p class="text-gray-300 mt-2">Add tasks simply by speaking. Example: "Meeting tomorrow 5 pm".</p>
+  <!-- Features Section -->
+  <section class="px-6 py-16 max-w-6xl mx-auto">
+    <h3 class="text-3xl font-bold text-center mb-12">✨ Why Choose AimTask?</h3>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
+        <i data-feather="bell" class="text-emerald-400 w-10 h-10 mb-3"></i>
+        <h4 class="text-xl font-semibold text-emerald-400">Smart Reminders</h4>
+        <p class="text-gray-300 mt-2">Get notified 5 minutes before your task starts so you never miss a deadline.</p>
+      </div>
+      <div
+        class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
+        <i data-feather="cpu" class="text-indigo-400 w-10 h-10 mb-3"></i>
+        <h4 class="text-xl font-semibold text-indigo-400">AI-Powered</h4>
+        <p class="text-gray-300 mt-2">AI analyzes your task descriptions and assigns auto-priority for better planning.</p>
+      </div>
+      <div
+        class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-700 hover:scale-105 transition">
+        <i data-feather="mic" class="text-pink-400 w-10 h-10 mb-3"></i>
+        <h4 class="text-xl font-semibold text-pink-400">Voice to Task</h4>
+        <p class="text-gray-300 mt-2">Add tasks by speaking. Example: "Meeting tomorrow 5 pm".</p>
+      </div>
     </div>
   </section>
 
+  <!-- Footer -->
   <footer class="text-center py-6 text-gray-400 border-t border-gray-700">
     <p>© <%= new Date().getFullYear() %> AimTask. All rights reserved.</p>
   </footer>
 
+  <script>
+    feather.replace();
+  </script>
 </body>
 </html>
