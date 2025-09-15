@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/stylesheets/output.css" rel="stylesheet">
+  <title>AimTask - Profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
+
+  <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen">
+      <div
+        class="bg-white p-6 rounded-xl shadow-lg text-center max-w-sm w-full transform scale-95 opacity-100 transition-all duration-300">
+        <h2 class="text-2xl font-bold text-red-600 mb-4">⚠️ Are You Sure?</h2>
+        <p class="text-gray-700 mb-6">This action will permanently delete your account.</p>
+
+        <div class="flex justify-center gap-6">
+          <!-- Yes button (POST request via form) -->
+          <form action="/profile/deleteAccount/<%= user.email %>" method="POST">
+            <button type="submit"
+              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition">
+              Yes, Delete
+            </button>
+          </form>
+
+
+          <button onclick="closeModal()"
+            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg shadow-md transition">
+            No, Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-700">
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+
+        <div class="flex-1 text-center sm:text-left">
+          <h2 class="text-3xl font-extrabold text-white">
+            <%= user.name %>
+          </h2>
+          <p class="text-indigo-300">
+            <%= user.email %>
+          </p>
+          <p class="mt-2 text-gray-300 text-sm">🚀 Managing personal & professional tasks effectively</p>
+
+          <div class="mt-5 flex flex-wrap gap-3 justify-center sm:justify-start">
+            <button
+              class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 text-white rounded-lg shadow-md transition"
+              onclick="window.location.href='/tasks/add/<%= user.email %>'">
+              + Add Task
+            </button>
+            <button
+              class="px-5 py-2 bg-gradient-to-r from-green-300 to-emerald-600 hover:scale-105 text-white rounded-lg shadow-md transition"
+              onclick="window.location.href='/tasks/viewtask/<%= user.email %>'">
+              View Task
+            </button>
+            <button
+              class="px-5 py-2 bg-gradient-to-r from-red-500 to-pink-600 hover:scale-105 text-white rounded-lg shadow-md transition"
+              id="profile_Logout">
+              Logout
+            </button>
+            <button id="voiceTaskBtn"
+              class="px-5 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg shadow-md transition hover:cursor-pointer">
+              🎤 Add Task by Voice
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+
+      <div
+        class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 text-center shadow-md transform hover:scale-105 transition">
+        <p class="text-3xl font-bold text-white">
+          <%= completedCount> 0 ? completedCount : "No tasks Completed Yet" %>
+        </p>
+        <p class="text-gray-100 mt-1">Tasks Completed</p>
+      </div>
+
+
+      <div
+        class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-6 text-center shadow-md transform hover:scale-105 transition">
+        <p class="text-3xl font-bold text-white">
+          <%= pendingCount %>
+        </p>
+        <p class="text-gray-100 mt-1">Pending</p>
+      </div>
+    </div>
+
+
+    <div class="bg-white/10 backdrop-blur-lg border border-gray-700 rounded-2xl shadow-lg p-6 mt-8 text-center">
+      <h3 class="text-xl font-semibold text-white mb-4">📊 Task Overview</h3>
+      <canvas id="taskChart" width="200" height="200"></canvas>
+    </div>
+
+
+
+    <div class="bg-white/10 backdrop-blur-lg border border-red-700 rounded-2xl shadow-lg p-6 mt-8">
+      <h3 class="text-xl font-semibold text-red-400">⚠️ Danger Zone</h3>
+      <p class="text-gray-300 mt-1">Once deleted, your account cannot be recovered.</p>
+      <button
+        class="mt-4 px-5 py-2 bg-gradient-to-r from-red-500 to-pink-600 hover:scale-105 text-white rounded-lg shadow-md transition"
+        onclick="openModal()">
+        Delete Account
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    const ctx = document.getElementById('taskChart').getContext('2d');
+
+    const completedCount = '<%= completedCount || 0 %>';
+    const pendingCount = '<%= pendingCount || 0 %>';
+
+    new Chart(ctx, {
+      type: 'doughnut',   // doughnut pie chart banata hai
+      data: {
+        labels: ['Completed', 'Pending'],  // labels chart ke parts ke naam
+        datasets: [{
+          data: [Number(completedCount), Number(pendingCount)], // yaha actual values
+          backgroundColor: ['#10B981', '#F59E0B'], // green, yellow
+          borderColor: ['#ffffff', '#ffffff'],    // white border
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true, // chart apne parent container ke hisaab se adjust karega
+        plugins: {
+          legend: {
+            position: 'bottom', // labels neeche show honge
+            labels: {
+              color: 'white' // legend text white hoga
+            }
+          }
+        }
+      }
+    });
+
+    function openModal() {
+      document.getElementById("deleteModal").classList.remove("hidden");
+    }
+    function closeModal() {
+      document.getElementById("deleteModal").classList.add("hidden");
+    }
+  </script>
+  
+  <script src="/javascripts/logout.js"></script>
+
+  
+  <script>
+    async function subscribeUser() {
+      if ("serviceWorker" in navigator) {
+        try {
+          const register = await navigator.serviceWorker.register("/sw.js");
+
+          const subscription = await register.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: "<%= PUBLIC_VAPID_KEY %>"
+          });
+
+          await fetch("/notifications/subscribe", {
+            method: "POST",
+            body: JSON.stringify(subscription),
+            headers: { "Content-Type": "application/json" }
+          });
+
+          console.log("✅ Subscribed for push notifications");
+        } catch (err) {
+          console.error("❌ Push subscription failed:", err);
+        }
+      }
+    }
+    subscribeUser();
+
+  </script>
+
+  <script src="/javascripts/handleVoiceScript.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AimTask - Edit Task</title>
+  <link href="/stylesheets/output.css" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6">
+
+  <div
+    class="w-full max-w-2xl bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-700 animate-fade-in">
+
+    <!-- Heading -->
+    <div class="flex items-center justify-between gap-2 mb-6">
+      <div class="flex items-center gap-2">
+        <i data-feather="edit" class="w-8 h-8 text-blue-400"></i>
+        <h2 class="text-3xl font-extrabold text-white">Edit Task</h2>
+      </div>
+
+      <!-- Back to Profile -->
+      <button onclick="window.location.href='/profile'"
+        class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg shadow-md transition transform hover:scale-105">
+        <i data-feather="arrow-left" class="inline w-5 h-5 mr-1"></i> Back to Profile
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form action="/tasks/update/<%= task._id %>" method="POST" class="space-y-6">
+
+      <!-- Title -->
+      <div>
+        <label for="title" class="block text-gray-300 font-medium mb-2">Title</label>
+        <div class="relative">
+          <i data-feather="edit-3" class="absolute left-3 top-3 text-gray-400"></i>
+          <input type="text" id="title" name="title" required
+            value="<%= task.title %>"
+            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="description" class="block text-gray-300 font-medium mb-2">Description</label>
+        <div class="relative">
+          <i data-feather="align-left" class="absolute left-3 top-3 text-gray-400"></i>
+          <textarea id="description" name="description" rows="4"
+            class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"><%= task.description %></textarea>
+        </div>
+      </div>
+
+     
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="priority" class="block text-gray-300 font-medium mb-2">Priority</label>
+          <div class="relative">
+            <i data-feather="flag" class="absolute left-3 top-3 text-gray-400"></i>
+            <select id="priority" name="priority"
+              class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="low" <%= task.priority === 'low' ? 'selected' : '' %>>Low</option>
+              <option value="medium" <%= task.priority === 'medium' ? 'selected' : '' %>>Medium</option>
+              <option value="high" <%= task.priority === 'high' ? 'selected' : '' %>>High</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="dueDate" class="block text-gray-300 font-medium mb-2">Due Date</label>
+          <div class="relative">
+            <i data-feather="calendar" class="absolute left-3 top-3 text-gray-400"></i>
+            <input type="date" id="dueDate" name="dueDate"
+              value="<%= task.dueDate ? task.dueDate.toISOString().substring(0,10) : '' %>"
+              class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label for="startTime" class="block text-gray-300 font-medium mb-2">Start Time</label>
+          <div class="relative">
+            <i data-feather="clock" class="absolute left-3 top-3 text-gray-400"></i>
+            <input type="datetime-local" id="startTime" name="startTime"
+              value="<%= task.startTime ? task.startTime.toISOString().slice(0,16) : '' %>"
+              class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="category" class="block text-gray-300 font-medium mb-2">Category</label>
+          <div class="relative">
+            <i data-feather="folder" class="absolute left-3 top-3 text-gray-400"></i>
+            <input type="text" id="category" name="category"
+              value="<%= task.category %>"
+              class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="flex justify-between items-center pt-4">
+        <button type="button" onclick="window.location.href='/profile'"
+          class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition">Cancel</button>
+        <button type="submit"
+          class="px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg shadow-md transition transform hover:scale-105">
+          <i data-feather="save" class="inline w-5 h-5 mr-1"></i> Update Task
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    feather.replace();
+  </script>
+ 
+</body>
+
+</html>

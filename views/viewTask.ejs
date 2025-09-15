@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AimTask - View Tasks</title>
+    <link href="/stylesheets/output.css" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 text-white">
+
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <h2 class="text-3xl font-extrabold flex items-center gap-2">
+                <i data-feather="list" class="w-9 h-9 text-green-400"></i> Your Tasks
+            </h2>
+
+            <div class="flex gap-3 mt-4 sm:mt-0">
+                <button onclick="window.location.href='/profile'"
+                    class="px-5 py-2 bg-gray-700 hover:bg-gray-800 rounded-lg shadow-md flex items-center gap-2 transition transform hover:scale-105">
+                    <i data-feather="arrow-left" class="w-5 h-5"></i> Profile
+                </button>
+                <button onclick="window.location.href='/tasks/add/<%= email %>'"
+                    class="px-5 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-lg shadow-md flex items-center gap-2 transition transform hover:scale-105">
+                    <i data-feather="plus-circle" class="w-5 h-5"></i> Add Task
+                </button>
+            </div>
+        </div>
+
+        <!-- 🔹 Filter Form -->
+        <form action="/tasks/viewtask/<%= email %>" method="GET" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <!-- Category -->
+            <select name="category" class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+                <option value="">All Categories</option>
+                <option value="Work" <%=query.category==="Work" ? "selected" : "" %>>Work</option>
+                <option value="Study" <%=query.category==="Study" ? "selected" : "" %>>Study</option>
+                <option value="Personal" <%=query.category==="Personal" ? "selected" : "" %>>Personal</option>
+            </select>
+
+            <!-- Status -->
+            <select name="status" class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+                <option value="">All Status</option>
+                <option value="pending" <%=query.status==="pending" ? "selected" : "" %>>Pending</option>
+                <option value="in-progress" <%=query.status==="in-progress" ? "selected" : "" %>>In Progress</option>
+                <option value="completed" <%=query.status==="completed" ? "selected" : "" %>>Completed</option>
+            </select>
+
+            <!-- Priority -->
+            <select name="priority" class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+                <option value="">All Priorities</option>
+                <option value="low" <%=query.priority==="low" ? "selected" : "" %>>Low</option>
+                <option value="medium" <%=query.priority==="medium" ? "selected" : "" %>>Medium</option>
+                <option value="high" <%=query.priority==="high" ? "selected" : "" %>>High</option>
+            </select>
+
+            <!-- Sorting -->
+            <select name="sort" class="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white">
+                <option value="desc" <%=query.sort==="desc" ? "selected" : "" %>>Newest First</option>
+                <option value="asc" <%=query.sort==="asc" ? "selected" : "" %>>Oldest First</option>
+            </select>
+
+            <button type="submit" class="col-span-full mt-3 px-5 py-2 bg-green-600 hover:bg-green-700 rounded-lg">
+                Apply Filters
+            </button>
+        </form>
+
+        <!-- Task List -->
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <% if(tasks.length==0) { %>
+                <p class="text-center text-gray-400 col-span-full">No tasks found. Please create one.</p>
+                <% } else { %>
+                    <% tasks.forEach((task)=> { %>
+                        <div
+                            class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-gray-700 shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+
+                            <div class="flex justify-between items-start mb-3">
+                                <h3
+                                    class="text-xl font-semibold <%= task.status === 'completed' ? 'line-through text-gray-400' : 'text-white' %>">
+                                    <%= task.title %>
+                                </h3>
+                                <span
+                                    class="px-3 py-1 text-xs rounded-full 
+            <%= task.status === 'completed' ? 'bg-green-600' : task.status === 'in-progress' ? 'bg-blue-600' : 'bg-yellow-600' %> text-white">
+                                    <%= task.status %>
+                                </span>
+                            </div>
+
+                            <p class="text-gray-300 text-sm">
+                                <%= task.description %>
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="px-2 py-1 text-xs rounded bg-indigo-600 text-white">
+                                    <%= task.category %>
+                                </span>
+                                <span
+                                    class="px-2 py-1 text-xs rounded 
+            <%= task.priority === 'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-600' %> text-white">
+                                    <%= task.priority %>
+                                </span>
+                            </div>
+
+                            <p class="text-sm text-gray-400 mt-3 flex items-center gap-2">
+                                <i data-feather="calendar" class="w-4 h-4"></i>
+                                Due: <%= task.dueDate ? new Date(task.dueDate).toDateString() : 'Not set' %>
+                            </p>
+
+                            <!-- Actions -->
+                            <div class="flex gap-2 mt-4">
+                                <% if(task.status !=='completed' ) { %>
+                                    <form action="/tasks/complete/<%= task._id %>" method="POST">
+                                        <button class="p-2 bg-green-600 hover:bg-green-700 rounded-lg"
+                                            title="Mark Complete">
+                                            <i data-feather="check-circle" class="w-4 h-4 text-white"></i>
+                                        </button>
+                                    </form>
+                                    <% } %>
+
+                                        <a href="/tasks/edit/<%= task._id %>"
+                                            class="p-2 bg-blue-600 hover:bg-blue-700 rounded-lg <%= task.status === 'completed' ? 'hidden' : 'visible' %>"
+                                            title="Edit">
+                                            <i data-feather="edit" class="w-4 h-4 text-white"></i>
+                                        </a>
+
+                                        <form action="/tasks/delete/<%= task._id %>" method="POST">
+                                            <button class="p-2 bg-red-600 hover:bg-red-700 rounded-lg" title="Delete">
+                                                <i data-feather="trash-2" class="w-4 h-4 text-white"></i>
+                                            </button>
+                                        </form>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } %>
+        </div>
+
+    </div>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+
+</html>
