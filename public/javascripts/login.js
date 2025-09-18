@@ -18,7 +18,6 @@ async function handleLogin() {
   const response = await result.json();
 
   if (response.success) {
-    console.log("hiii");
     window.location.href = "/profile";
   } else {
     showMessages.classList.remove("hidden");

@@ -40,7 +40,7 @@ app.use(
 ); //upper code create the Session with encryption
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); //Integrate the Express Session
 
 
 app.use('/',homeRoute);

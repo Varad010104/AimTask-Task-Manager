@@ -1,7 +1,7 @@
 const cron = require("node-cron");
 const taskModal = require("../models/task");
 const webpush = require("../utils/push");
-const { subscriptions } = require("../routes/notification"); // import karenge
+const { subscriptions } = require("../routes/notification"); 
 
 cron.schedule("* * * * *", async () => {
   const now = new Date();

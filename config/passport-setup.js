@@ -38,7 +38,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID, // Google developer console se liya
       clientSecret: process.env.GOOGLE_CLIENT_SECRET, // Google ka secret key
-      callbackURL: "http://localhost:3000/auth/google/callback", // Google login ke baad is URL pe wapas aayega
+      callbackURL: "https://aimtask-task-manager.onrender.com/auth/google/callback", // Google login ke baad is URL pe wapas aayega
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
